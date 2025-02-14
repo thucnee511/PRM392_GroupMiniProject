@@ -1,6 +1,8 @@
 package vn.edu.fpt.groupminiproject.models;
 
-public class Bet {
+import java.io.Serializable;
+
+public class Bet implements Serializable {
     private int betAmount;
     private int giraffeBetAmount;
     private int lionBetAmount;

@@ -13,6 +13,11 @@
         android:theme="@style/Theme.GroupMiniProject"
         tools:targetApi="31">
         <activity
+            android:name=".activities.BetActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            tools:ignore="DiscouragedApi" />
+        <activity
             android:name=".activities.RacingActivity"
             android:exported="false"
             android:screenOrientation="landscape"
@@ -29,6 +34,7 @@
             tools:ignore="DiscouragedApi">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -53,6 +53,8 @@ public class RacingActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             this.account = (Account) bundle.getSerializable("account");
+            this.bet = (Bet) bundle.getSerializable("bet");
+            if (bet == null) this.bet = new Bet();
         } else {
             Intent goToLogin = new Intent(this, LoginActivity.class);
             startActivity(goToLogin);
@@ -71,6 +73,7 @@ public class RacingActivity extends AppCompatActivity {
 
         btnStartGame.setOnClickListener(v -> startGame());
         btnReset.setOnClickListener(v -> reset());
+        btnBet.setOnClickListener(v -> bet());
         disableSeekBar();
         display();
     }
@@ -110,15 +113,19 @@ public class RacingActivity extends AppCompatActivity {
             ImageView winner = null;
             ImageView loser1 = null;
             ImageView loser2 = null;
+            String winnerName = "";
             if (giraffeSpeed <= lionSpeed && giraffeSpeed <= squirrelSpeed) {
+                winnerName = "Giraffe";
                 winner = imgFinishGiraffe;
                 loser1 = imgFinishLion;
                 loser2 = imgFinishSquirrel;
             } else if (lionSpeed <= giraffeSpeed && lionSpeed <= squirrelSpeed) {
+                winnerName = "Lion";
                 winner = imgFinishLion;
                 loser1 = imgFinishGiraffe;
                 loser2 = imgFinishSquirrel;
             } else {
+                winnerName = "Squirrel";
                 winner = imgFinishSquirrel;
                 loser1 = imgFinishGiraffe;
                 loser2 = imgFinishLion;
@@ -126,7 +133,7 @@ public class RacingActivity extends AppCompatActivity {
             winner.setImageResource(R.drawable.ic_trophy);
             loser1.setImageResource(R.drawable.ic_bronze_medal);
             loser2.setImageResource(R.drawable.ic_bronze_medal);
-            endGame();
+            endGame(winnerName);
         }, delayTime);
     }
 
@@ -136,9 +143,17 @@ public class RacingActivity extends AppCompatActivity {
         animator.start();
     }
 
-    private void endGame() {
+    private void endGame(String winnerName) {
         isGameRunning = false;
         isEnded = true;
+        Toast.makeText(this, winnerName + " wins", Toast.LENGTH_SHORT).show();
+        if (winnerName.equals("Giraffe")) {
+            account.setBalance(account.getBalance() + bet.getGiraffeBetAmount() * 2);
+        } else if (winnerName.equals("Lion")) {
+            account.setBalance(account.getBalance() + bet.getLionBetAmount() * 2);
+        } else {
+            account.setBalance(account.getBalance() + bet.getSquirrelBetAmount() * 2);
+        }
     }
 
     private void reset() {
@@ -148,6 +163,26 @@ public class RacingActivity extends AppCompatActivity {
         imgFinishGiraffe.setImageResource(R.drawable.flag);
         imgFinishLion.setImageResource(R.drawable.flag);
         imgFinishSquirrel.setImageResource(R.drawable.flag);
+        bet = new Bet();
         isEnded = false;
+    }
+
+    private void bet() {
+        if (isEnded) {
+            Toast.makeText(this, "Game has ended please reset", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (isGameRunning) {
+            Toast.makeText(this, "Game is already running", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent goToBetIntent = new Intent(this, BetActivity.class);
+        Bundle bundle = new Bundle();
+        if (bundle != null) {
+            bundle.putSerializable("bet",bet);
+            bundle.putSerializable("account",account);
+            goToBetIntent.putExtras(bundle);
+        }
+        startActivity(goToBetIntent);
     }
 }
