@@ -1,8 +1,13 @@
 package vn.edu.fpt.groupminiproject.activities;
 
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -13,14 +18,21 @@ import androidx.core.view.WindowInsetsCompat;
 
 import vn.edu.fpt.groupminiproject.R;
 import vn.edu.fpt.groupminiproject.models.Account;
+import vn.edu.fpt.groupminiproject.repositories.AnimalRepository;
 
 public class RacingActivity extends AppCompatActivity {
-
+    private AnimalRepository animalRepository;
     private TextView txtDisplayName;
     private TextView txtDisplayBalance;
     private Button btnStartGame;
     private Button btnReset;
     private Button btnBet;
+    private SeekBar sbAnimalGiraffe;
+    private SeekBar sbAnimalLion;
+    private SeekBar sbAnimalSquirrel;
+    private ImageView imgFinishGiraffe;
+    private ImageView imgFinishLion;
+    private ImageView imgFinishSquirrel;
 
     private Account account;
     @Override
@@ -45,10 +57,82 @@ public class RacingActivity extends AppCompatActivity {
         btnStartGame = (Button) findViewById(R.id.btnStartGame);
         btnReset = (Button) findViewById(R.id.btnReset);
         btnBet = (Button) findViewById(R.id.btnBet);
-        Display();
+        sbAnimalGiraffe = (SeekBar) findViewById(R.id.sbAnimal1);
+        sbAnimalLion = (SeekBar) findViewById(R.id.sbAnimal2);
+        sbAnimalSquirrel = (SeekBar) findViewById(R.id.sbAnimal3);
+        imgFinishGiraffe = (ImageView) findViewById(R.id.imgFinishGiraffe);
+        imgFinishLion = (ImageView) findViewById(R.id.imgFinishLion);
+        imgFinishSquirrel = (ImageView) findViewById(R.id.imgFinishSquirrel);
+
+        btnStartGame.setOnClickListener(v -> startGame());
+        btnReset.setOnClickListener(v -> reset());
+        disableSeekBar();
+        display();
     }
-    private void Display() {
+    @SuppressLint("SetTextI18n")
+    private void display() {
         txtDisplayName.setText(account.getDisplayName());
         txtDisplayBalance.setText(account.getBalanceString() + " $");
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void disableSeekBar() {
+        //Make seekbar unable to change while touching
+        sbAnimalGiraffe.setOnTouchListener((v, event) -> true);
+        sbAnimalLion.setOnTouchListener((v, event) -> true);
+        sbAnimalSquirrel.setOnTouchListener((v, event) -> true);
+        animalRepository = AnimalRepository.getInstance(sbAnimalGiraffe, sbAnimalLion, sbAnimalSquirrel);
+    }
+
+    private void startGame() {
+        int giraffeSpeed = animalRepository.getGiraffe().getRandomSpeed();
+        int lionSpeed = animalRepository.getLion().getRandomSpeed();
+        int squirrelSpeed = animalRepository.getSquirrel().getRandomSpeed();
+        animateProgress(giraffeSpeed, animalRepository.getGiraffe().getSeekBar());
+        animateProgress(lionSpeed, animalRepository.getLion().getSeekBar());
+        animateProgress(squirrelSpeed, animalRepository.getSquirrel().getSeekBar());
+        long delayTime = Math.max(giraffeSpeed, Math.max(lionSpeed, squirrelSpeed)) * 1000L;
+        new Handler().postDelayed(() -> {
+            ImageView winner = null;
+            ImageView loser1 = null;
+            ImageView loser2 = null;
+            if (giraffeSpeed <= lionSpeed && giraffeSpeed <= squirrelSpeed) {
+                winner = imgFinishGiraffe;
+                loser1 = imgFinishLion;
+                loser2 = imgFinishSquirrel;
+            } else if (lionSpeed <= giraffeSpeed && lionSpeed <= squirrelSpeed) {
+                winner = imgFinishLion;
+                loser1 = imgFinishGiraffe;
+                loser2 = imgFinishSquirrel;
+            } else {
+                winner = imgFinishSquirrel;
+                loser1 = imgFinishGiraffe;
+                loser2 = imgFinishLion;
+            }
+            winner.setImageResource(R.drawable.ic_trophy);
+            loser1.setImageResource(R.drawable.ic_bronze_medal);
+            loser2.setImageResource(R.drawable.ic_bronze_medal);
+        }, delayTime);
+    }
+
+    private void animateProgress(int speed, SeekBar seekBar) {
+        final ObjectAnimator animator = ObjectAnimator.ofInt(seekBar, "progress", 0, seekBar.getMax());
+        animator.setDuration(speed * 1000L);
+        animator.start();
+    }
+
+    private void endGame() {
+        //find the animal that has first, second and third highest progress
+        int giraffeProgress = sbAnimalGiraffe.getProgress();
+        int lionProgress = sbAnimalLion.getProgress();
+        int squirrelProgress = sbAnimalSquirrel.getProgress();
+
+    }
+
+    private void reset() {
+
+        sbAnimalGiraffe.setProgress(0);
+        sbAnimalLion.setProgress(0);
+        sbAnimalSquirrel.setProgress(0);
     }
 }

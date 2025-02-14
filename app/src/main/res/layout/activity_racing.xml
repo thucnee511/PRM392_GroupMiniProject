@@ -85,4 +85,73 @@
         android:text="Bet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/sbAnimal1"
+        android:layout_width="600dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="50dp"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/gd_road"
+        android:thumb="@drawable/ic_giraffe"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnStartGame" />
+
+    <SeekBar
+        android:id="@+id/sbAnimal2"
+        android:layout_width="600dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/gd_road"
+        android:thumb="@drawable/ic_lion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sbAnimal1" />
+
+    <SeekBar
+        android:id="@+id/sbAnimal3"
+        android:layout_width="600dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/gd_road"
+        android:thumb="@drawable/ic_squirrel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sbAnimal2" />
+
+    <ImageView
+        android:id="@+id/imgFinishGiraffe"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnStartGame"
+        app:srcCompat="@drawable/flag" />
+
+    <ImageView
+        android:id="@+id/imgFinishLion"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgFinishGiraffe"
+        app:srcCompat="@drawable/flag" />
+
+    <ImageView
+        android:id="@+id/imgFinishSquirrel"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgFinishLion"
+        app:srcCompat="@drawable/flag" />
 </androidx.constraintlayout.widget.ConstraintLayout>

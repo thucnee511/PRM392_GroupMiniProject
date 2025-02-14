@@ -8,12 +8,10 @@ import java.io.Serializable;
 public class Animal implements Serializable {
     private String displayName;
     private SeekBar seekBar;
-    private ImageView badge;
 
-    public Animal(String displayName, SeekBar seekBar, ImageView badge) {
+    public Animal(String displayName, SeekBar seekBar) {
         this.displayName = displayName;
         this.seekBar = seekBar;
-        this.badge = badge;
     }
 
     public String getDisplayName() {
@@ -24,13 +22,9 @@ public class Animal implements Serializable {
         return seekBar;
     }
 
-    public ImageView getBadge() {
-        return badge;
-    }
-
     public int getRandomSpeed() {
-        // Implement logic to generate a random speed for the animal from 1 - 3
-        int speed = (int) (Math.random() * 3) + 1;
-        return Math.min(speed, 3);
+        // Implement logic to generate a random speed for the animal from 1 - 5
+        int speed = (int) (Math.random() * 10) + 1;
+        return Math.min(speed, 10);
     }
 }
