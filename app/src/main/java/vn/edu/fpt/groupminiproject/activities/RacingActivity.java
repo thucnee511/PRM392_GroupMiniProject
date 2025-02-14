@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import vn.edu.fpt.groupminiproject.R;
 import vn.edu.fpt.groupminiproject.models.Account;
+import vn.edu.fpt.groupminiproject.models.Bet;
 import vn.edu.fpt.groupminiproject.repositories.AnimalRepository;
 
 public class RacingActivity extends AppCompatActivity {
@@ -35,6 +37,9 @@ public class RacingActivity extends AppCompatActivity {
     private ImageView imgFinishSquirrel;
 
     private Account account;
+    private Bet bet;
+    private boolean isEnded;
+    private boolean isGameRunning;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +90,15 @@ public class RacingActivity extends AppCompatActivity {
     }
 
     private void startGame() {
+        if (isEnded) {
+            Toast.makeText(this, "Game has ended please reset", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (isGameRunning) {
+            Toast.makeText(this, "Game is already running", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        isGameRunning = true;
         int giraffeSpeed = animalRepository.getGiraffe().getRandomSpeed();
         int lionSpeed = animalRepository.getLion().getRandomSpeed();
         int squirrelSpeed = animalRepository.getSquirrel().getRandomSpeed();
@@ -112,6 +126,7 @@ public class RacingActivity extends AppCompatActivity {
             winner.setImageResource(R.drawable.ic_trophy);
             loser1.setImageResource(R.drawable.ic_bronze_medal);
             loser2.setImageResource(R.drawable.ic_bronze_medal);
+            endGame();
         }, delayTime);
     }
 
@@ -122,17 +137,17 @@ public class RacingActivity extends AppCompatActivity {
     }
 
     private void endGame() {
-        //find the animal that has first, second and third highest progress
-        int giraffeProgress = sbAnimalGiraffe.getProgress();
-        int lionProgress = sbAnimalLion.getProgress();
-        int squirrelProgress = sbAnimalSquirrel.getProgress();
-
+        isGameRunning = false;
+        isEnded = true;
     }
 
     private void reset() {
-
         sbAnimalGiraffe.setProgress(0);
         sbAnimalLion.setProgress(0);
         sbAnimalSquirrel.setProgress(0);
+        imgFinishGiraffe.setImageResource(R.drawable.flag);
+        imgFinishLion.setImageResource(R.drawable.flag);
+        imgFinishSquirrel.setImageResource(R.drawable.flag);
+        isEnded = false;
     }
 }

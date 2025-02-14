@@ -24,7 +24,7 @@ public class Animal implements Serializable {
 
     public int getRandomSpeed() {
         // Implement logic to generate a random speed for the animal from 1 - 5
-        int speed = (int) (Math.random() * 10) + 1;
-        return Math.min(speed, 10);
+        int speed = (int) (Math.random() * 5) + 1;
+        return Math.min(speed, 5);
     }
 }

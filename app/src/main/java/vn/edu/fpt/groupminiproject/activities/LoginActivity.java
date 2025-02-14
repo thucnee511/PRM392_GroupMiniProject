@@ -39,13 +39,13 @@ public class LoginActivity extends AppCompatActivity {
                 String password = edtPassword.getText().toString();
                 Account account = accountRepository.checkLogin(username, password);
                 if (account == null){
-                    Toast.makeText(LoginActivity.this, "Wrong login credentials!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Wrong login credentials!", Toast.LENGTH_SHORT).show();
                 }else{
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("account", account);
                     Intent intent = new Intent(LoginActivity.this, RacingActivity.class);
                     intent.putExtras(bundle);
-                    Toast.makeText(LoginActivity.this, "Login successfully!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Login successfully!", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 }
             }
