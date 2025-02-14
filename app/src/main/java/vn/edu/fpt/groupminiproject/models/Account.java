@@ -1,6 +1,8 @@
 package vn.edu.fpt.groupminiproject.models;
 
-public class Account {
+import java.io.Serializable;
+
+public class Account implements Serializable {
     private String username;
     private String password;
     private String displayName;
@@ -43,5 +45,10 @@ public class Account {
 
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    public String getBalanceString() {
+        //format balance to string with comma
+        return String.format("%,d", balance);
     }
 }

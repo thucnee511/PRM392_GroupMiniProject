@@ -3,7 +3,9 @@ package vn.edu.fpt.groupminiproject.models;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
-public class Animal {
+import java.io.Serializable;
+
+public class Animal implements Serializable {
     private String displayName;
     private SeekBar seekBar;
     private ImageView badge;
