@@ -7,6 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".activities.RacingActivity">
 
+    <TextView
+        android:id="@+id/txtTotalBet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/sbAnimal3" />
+
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="50dp"
@@ -94,7 +104,7 @@
         android:layout_marginTop="50dp"
         android:max="100"
         android:progress="0"
-        android:progressDrawable="@drawable/gd_road"
+        android:background="@drawable/road_bg"
         android:thumb="@drawable/ic_giraffe"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnStartGame" />
@@ -104,10 +114,9 @@
         android:layout_width="600dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:background="@drawable/road_bg"
         android:max="100"
         android:progress="0"
-        android:progressDrawable="@drawable/gd_road"
         android:thumb="@drawable/ic_lion"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sbAnimal1" />
@@ -117,10 +126,9 @@
         android:layout_width="600dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:background="@drawable/road_bg"
         android:max="100"
         android:progress="0"
-        android:progressDrawable="@drawable/gd_road"
         android:thumb="@drawable/ic_squirrel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sbAnimal2" />
@@ -139,7 +147,6 @@
         android:id="@+id/imgFinishLion"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgFinishGiraffe"
@@ -149,9 +156,18 @@
         android:id="@+id/imgFinishSquirrel"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgFinishLion"
         app:srcCompat="@drawable/flag" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Total bet: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sbAnimal3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

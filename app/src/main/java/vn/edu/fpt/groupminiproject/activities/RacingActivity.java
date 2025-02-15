@@ -3,6 +3,7 @@ package vn.edu.fpt.groupminiproject.activities;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
@@ -26,6 +27,7 @@ public class RacingActivity extends AppCompatActivity {
     private AnimalRepository animalRepository;
     private TextView txtDisplayName;
     private TextView txtDisplayBalance;
+    private TextView txtTotalBet;
     private Button btnStartGame;
     private Button btnReset;
     private Button btnBet;
@@ -61,6 +63,7 @@ public class RacingActivity extends AppCompatActivity {
         }
         txtDisplayName = (TextView) findViewById(R.id.txtDisplayName);
         txtDisplayBalance = (TextView) findViewById(R.id.txtDisplayBalance);
+        txtTotalBet = (TextView) findViewById(R.id.txtTotalBet);
         btnStartGame = (Button) findViewById(R.id.btnStartGame);
         btnReset = (Button) findViewById(R.id.btnReset);
         btnBet = (Button) findViewById(R.id.btnBet);
@@ -77,10 +80,11 @@ public class RacingActivity extends AppCompatActivity {
         disableSeekBar();
         display();
     }
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     private void display() {
         txtDisplayName.setText(account.getDisplayName());
         txtDisplayBalance.setText(account.getBalanceString() + " $");
+        txtTotalBet.setText(String.format("%,d", bet.getBetAmount()) + " $");
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -105,6 +109,8 @@ public class RacingActivity extends AppCompatActivity {
             Toast.makeText(this, "Please bet before start game", Toast.LENGTH_SHORT).show();
             return;
         }
+        final MediaPlayer mp = MediaPlayer.create(this, R.raw.run);
+        mp.start();
         isGameRunning = true;
         int giraffeSpeed = animalRepository.getGiraffe().getRandomSpeed();
         int lionSpeed = animalRepository.getLion().getRandomSpeed();
@@ -138,6 +144,7 @@ public class RacingActivity extends AppCompatActivity {
             loser1.setImageResource(R.drawable.ic_bronze_medal);
             loser2.setImageResource(R.drawable.ic_bronze_medal);
             endGame(winnerName);
+            mp.stop();
         }, delayTime);
     }
 
