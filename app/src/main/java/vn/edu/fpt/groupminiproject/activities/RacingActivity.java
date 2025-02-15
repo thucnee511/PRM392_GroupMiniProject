@@ -101,13 +101,17 @@ public class RacingActivity extends AppCompatActivity {
             Toast.makeText(this, "Game is already running", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (bet.getBetAmount() == 0) {
+            Toast.makeText(this, "Please bet before start game", Toast.LENGTH_SHORT).show();
+            return;
+        }
         isGameRunning = true;
         int giraffeSpeed = animalRepository.getGiraffe().getRandomSpeed();
         int lionSpeed = animalRepository.getLion().getRandomSpeed();
         int squirrelSpeed = animalRepository.getSquirrel().getRandomSpeed();
-        animateProgress(giraffeSpeed, animalRepository.getGiraffe().getSeekBar());
-        animateProgress(lionSpeed, animalRepository.getLion().getSeekBar());
-        animateProgress(squirrelSpeed, animalRepository.getSquirrel().getSeekBar());
+        animateProgress(giraffeSpeed, findViewById(animalRepository.getGiraffe().getSeekBar().getId()));
+        animateProgress(lionSpeed, findViewById(animalRepository.getLion().getSeekBar().getId()));
+        animateProgress(squirrelSpeed, findViewById(animalRepository.getSquirrel().getSeekBar().getId()));
         long delayTime = Math.max(giraffeSpeed, Math.max(lionSpeed, squirrelSpeed)) * 1000L;
         new Handler().postDelayed(() -> {
             ImageView winner = null;
